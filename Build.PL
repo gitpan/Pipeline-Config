@@ -26,13 +26,14 @@ my $build = Module::Build->new
    license            => 'perl',
    build_requires     => {
 			  'Test::More'    => '0.01',
-			  'Module::Build' => '0.19',
+			  'Module::Build' => '0.20',
 		         },
    requires           => {
-			  'Pipeline'      => '3.01',
+			  'Pipeline'      => '3.04',
+			  'Error'         => '0.15',
+			  'YAML'          => '0.35',
 		         },
    recommends         => {
-			  'YAML'          => '0.35',
 		         },
   );
 
@@ -43,7 +44,7 @@ __END__
 
 =head1 VERSION
 
-$Id: Build.PL,v 1.2 2003/08/08 11:21:55 spurkis Exp $
+$Id: Build.PL,v 1.4 2003/09/24 07:21:51 spurkis Exp $
 
 =head1 AUTHOR
 

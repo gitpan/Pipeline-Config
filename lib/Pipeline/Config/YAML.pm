@@ -13,7 +13,7 @@ use YAML qw( LoadFile Dump );
 use base qw( Pipeline::Base );
 
 our $VERSION  = ((require Pipeline::Config), $Pipeline::Config::VERSION)[1];
-our $REVISION = (split(/ /, ' $Revision: 1.8 $ '))[2];
+our $REVISION = (split(/ /, ' $Revision: 1.9 $ '))[2];
 
 sub init {
     my $self = shift;
@@ -134,6 +134,8 @@ sub get_context {
     my $new_context;
     if ($text =~ /^search.packages$/i) {
 	$new_context = $self->{search};
+    } elsif ($text =~ /^cleanups$/i) {
+	$new_context = $self->{pipe}->cleanups;
     } elsif ($text =~ /^pipeline$/i) {
 	$new_context = $self->{pipe};
     } elsif ($text =~ /^(.+) pipe$/i) {

@@ -35,6 +35,13 @@ is( $parser->debug, 0,          'debug(get)' );
 		is( $seg->{foo}, 'bar', 'foo/bar set' );
 	    }
 	}
+	my $cleanups = $pipe->cleanups;
+	if (isa_ok( $cleanups, 'Pipeline', 'cleanups' )) {
+	    my $seg = $cleanups->segments->[0];
+	    if (isa_ok( $seg, 'Test::Segment', 'cleanups seg' )) {
+		is( $seg->{foo}, 'baz', 'foo/baz set' );
+	    }
+	}
     }
     #use Data::Dumper;
     #print Dumper( $pipe );

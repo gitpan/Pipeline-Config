@@ -9,3 +9,5 @@ pipeline:
       - another sub pipe:
           - Test::Segment
       - Test::Segment: { foo: "bar" }
+cleanups:
+  - Test::Segment: { foo: "baz" }

@@ -4,6 +4,11 @@
 
 All changes by Steve Purkis <spurkis@epn.nu> unless otherwise stated.
 
+v0.05
+    +	added cleanups pipeline support
+    +	YAML now required [reported by Jean-Michel Hiver]
+    +	updated dependencies
+
 v0.04
     +	fixed dependencies in Build.PL
 

@@ -29,8 +29,8 @@ use Pipeline::Config::UnknownTypeError;
 
 use base qw( Pipeline::Base );
 
-our $VERSION  = '0.04';
-our $REVISION = (split(/ /, ' $Revision: 1.12 $ '))[2];
+our $VERSION  = '0.05';
+our $REVISION = (split(/ /, ' $Revision: 1.13 $ '))[2];
 our $TYPES    = { # maybe should use regexps here?
 		 'yml'  => 'Pipeline::Config::YAML',
 		 'yaml' => 'Pipeline::Config::YAML',
@@ -165,6 +165,9 @@ Here's an example YAML config file:
         # this calls the 'foo' method with 'bar' as an argument:
         - Baz: { foo: "bar" }
     - AnotherApp::Segment::GoFish
+  cleanups:
+    # if you really need to, set cleanup segments here...
+    - Cleanup::Segment
 
 =head1 AUTHOR
 
