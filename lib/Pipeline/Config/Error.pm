@@ -15,7 +15,8 @@ use warnings::register;
 
 use base qw( Error );
 
-our $VERSION = (split(/ /, ' $Revision: 1.1 $ '))[2];
+our $VERSION  = ((require Pipeline::Config), $Pipeline::Config::VERSION)[1];
+our $REVISION = (split(/ /, ' $Revision: 1.2 $ '))[2];
 
 sub new {
     my $class = shift;

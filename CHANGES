@@ -4,6 +4,12 @@
 
 All changes by Steve Purkis <spurkis@epn.nu> unless otherwise stated.
 
+v0.03
+    +	added search packages support
+    +	moved to Module::Build
+    +	now recognize .yml files as yaml
+    +	all pm's now use $P::Config::VERSION, cvs revision in $REVISION  
+
 v0.02
     +	moved *Error classes to their correct location
     +	$confg->debug now propagates through to parsers

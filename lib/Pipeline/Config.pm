@@ -29,8 +29,12 @@ use Pipeline::Config::UnknownTypeError;
 
 use base qw( Pipeline::Base );
 
-our $VERSION = '0.02';
-our $TYPES   = { 'yaml' => 'Pipeline::Config::YAML' };
+our $VERSION  = '0.03';
+our $REVISION = (split(/ /, ' $Revision: 1.10 $ '))[2];
+our $TYPES    = { # maybe should use regexps here?
+		 'yml'  => 'Pipeline::Config::YAML',
+		 'yaml' => 'Pipeline::Config::YAML',
+		};
 
 sub types {
     my $self = shift;
@@ -145,14 +149,22 @@ Here's an example YAML config file:
 
   # Pipeline configuration file
   ---
+  search-packages:
+    - MyApp::Segment
   pipeline:
     - MyApp::Segment::Foo
-    - a sub pipe:
+    # you don't have to name segments explicitly
+    # if you're using search-packages:
+    - Foo
+    - this is a sub pipe:
+        # anything with the word 'pipe' creates a new Pipeline
+        # named sub-pipes are not yet supported
         - another sub pipe:
-            - MyApp::Segment::DeclineNoBar
-            - MyApp::Segment::GetDrink
-        - MyApp::Segment::Baz: { foo: "bar" }
-    - MyApp::Segment::GoFish
+            - DeclineNoBar
+            - GetDrink
+        # this calls the 'foo' method with 'bar' as an argument:
+        - Baz: { foo: "bar" }
+    - AnotherApp::Segment::GoFish
 
 =head1 AUTHOR
 

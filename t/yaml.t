@@ -1,10 +1,11 @@
 #!/usr/bin/perl
 
 ##
-## Tests for Pipeline::Config
+## Tests for Pipeline::Config::YAML
 ##
 
 use blib;
+use lib 't/lib';
 use strict;
 use warnings;
 
@@ -52,14 +53,29 @@ is( $parser->debug, 0,          'debug(get)' );
 
 {
     my $e;
-    try {
-	$parser->load( 't/conf/bad-classname.yaml' );
-    }
+    try { $parser->load( 't/conf/bad-classname.yaml' ); }
     catch Error with { $e = shift; };
     isa_ok( $e, 'Pipeline::Config::LoadError', 'load config w/bad class name' );
     like  ( $e, qr/Error loading class/,       'error loading class' );
 }
 
+{
+    my $pipe;
+    try {
+	 $pipe = $parser->load( 't/conf/config-abbrev.yml' );
+    }
+    catch Error with { fail( 'load config-abbrev.yml: ' . shift); };
+
+    if (isa_ok( $pipe, 'Pipeline', 'load abbreviated yaml config' )) {
+	my $subpipe = $pipe->segments->[-1];
+	if (isa_ok( $subpipe, 'Pipeline', 'subpipe' )) {
+	    my $seg = $subpipe->segments->[-1];
+	    if (isa_ok( $seg, 'Test::Segment', 'last seg' )) {
+		is( $seg->{foo}, 'bar', 'foo/bar set' );
+	    }
+	}
+    }
+}
 
 package Test::Segment;
 use base qw( Pipeline::Segment );

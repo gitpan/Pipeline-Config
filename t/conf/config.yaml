@@ -4,6 +4,7 @@ search-packages:
   - not yet functional...
 pipeline:
   - Test::Segment
+  - TestSeg
   - a sub pipe:
       - another sub pipe:
           - Test::Segment

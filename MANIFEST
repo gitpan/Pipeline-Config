@@ -1,6 +1,8 @@
 BUGS
+Build.PL
 CHANGES
 MANIFEST
+META.yml
 Makefile.PL
 README
 TODO
@@ -10,5 +12,7 @@ lib/Pipeline/Config/LoadError.pm
 lib/Pipeline/Config/UnknownTypeError.pm
 lib/Pipeline/Config/YAML.pm
 t/conf/bad-classname.yaml
+t/conf/config-abbrev.yml
 t/conf/config.yaml
+t/lib/TestSeg.pm
 t/yaml.t

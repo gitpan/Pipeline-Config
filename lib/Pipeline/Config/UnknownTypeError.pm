@@ -16,7 +16,8 @@ use warnings::register;
 
 use base qw( Pipeline::Config::Error );
 
-our $VERSION = (split(/ /, ' $Revision: 1.2 $ '))[2];
+our $VERSION  = ((require Pipeline::Config), $Pipeline::Config::VERSION)[1];
+our $REVISION = (split(/ /, ' $Revision: 1.3 $ '))[2];
 
 1;
 

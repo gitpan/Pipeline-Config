@@ -7,11 +7,13 @@ use Error;
 use Pipeline;
 use Pipeline::Config::LoadError;
 use Scalar::Util qw( blessed );
+use UNIVERSAL qw( can isa );
 use YAML qw( LoadFile Dump );
 
 use base qw( Pipeline::Base );
 
-our $VERSION = (split(/ /, ' $Revision: 1.5 $ '))[2];
+our $VERSION  = ((require Pipeline::Config), $Pipeline::Config::VERSION)[1];
+our $REVISION = (split(/ /, ' $Revision: 1.8 $ '))[2];
 
 sub init {
     my $self = shift;
@@ -50,7 +52,7 @@ sub parse_hash {
     my $context = shift;
 
     throw Pipeline::Config::LoadError( "[$hash] is not a hash! context: [$context]!" )
-      unless UNIVERSAL::isa( $hash, 'HASH' );
+      unless isa( $hash, 'HASH' );
 
     $self->{indent} ++;
     $self->emit( "parsing hash\t($context)" );
@@ -77,7 +79,7 @@ sub parse_array {
     my $context = shift;
 
     throw Pipeline::Config::LoadError( "[$list] is not a list! context: [$context]" )
-      unless UNIVERSAL::isa( $list, 'ARRAY' );
+      unless isa( $list, 'ARRAY' );
 
     $self->{indent} ++;
     $self->emit( "parsing list\t($context)" );
@@ -172,13 +174,29 @@ sub create_segment {
     $self->{indent} ++;
     $self->emit( "creating new $seg_class" );
 
-    unless (UNIVERSAL::can( $seg_class, 'new' )) {
-	eval "require $seg_class";
-	throw Pipeline::Config::LoadError( "Error loading class [$seg_class]: $@" ) if ($@);
-    }
+    my $actual_class = $self->load_seg_class( $seg_class );
 
     $self->{indent} --;
-    return $seg_class->new( @args );
+    return $actual_class->new( @args );
+}
+
+sub load_seg_class {
+    my $self = shift;
+    my $seg_class = shift;
+
+    my @search_pkgs = ( $seg_class,
+                        map { $_ . '::' . $seg_class }
+                           @{ $self->{search}->{packages} } );
+
+    foreach my $pkg ( @search_pkgs ) {
+	return $pkg if $pkg->can( 'new' );
+	eval "require $pkg";
+	return $pkg unless $@;
+    }
+
+    throw Pipeline::Config::LoadError( "Error loading class [$seg_class] - " .
+				       "couldn't find new() in: " .
+				       join( ', ', @search_pkgs) );
 }
 
 sub emit {
@@ -190,6 +208,12 @@ sub emit {
 package Pipeline::Config::YAML::Search;
 
 use base qw( Pipeline::Base );
+
+sub init {
+    my $self = shift;
+    $self->{packages} = [];
+    return $self;
+}
 
 1;
 

@@ -1,0 +1,32 @@
+--- #YAML:1.0
+name: Pipeline-Config
+version: 0.03
+license: perl
+distribution_type: module
+requires: {}
+recommends:
+  YAML: 0.35
+build_requires:
+  Module::Build: 0.19
+  Test::More: 0.01
+conflicts: {}
+provides:
+  Pipeline::Config:
+    file: lib/Pipeline/Config.pm
+    version: 0.03
+  Pipeline::Config::Error:
+    file: lib/Pipeline/Config/Error.pm
+    version: 0.03
+  Pipeline::Config::LoadError:
+    file: lib/Pipeline/Config/LoadError.pm
+    version: 0.03
+  Pipeline::Config::UnknownTypeError:
+    file: lib/Pipeline/Config/UnknownTypeError.pm
+    version: 0.03
+  Pipeline::Config::YAML:
+    file: lib/Pipeline/Config/YAML.pm
+    version: 0.03
+  Pipeline::Config::YAML::Search:
+    file: lib/Pipeline/Config/YAML.pm
+    version: 0.03
+generated_by: Module::Build version 0.19_03
