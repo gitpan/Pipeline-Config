@@ -4,6 +4,9 @@
 
 All changes by Steve Purkis <spurkis@epn.nu> unless otherwise stated.
 
+v0.04
+    +	fixed dependencies in Build.PL
+
 v0.03
     +	added search packages support
     +	moved to Module::Build

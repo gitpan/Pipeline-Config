@@ -29,8 +29,8 @@ use Pipeline::Config::UnknownTypeError;
 
 use base qw( Pipeline::Base );
 
-our $VERSION  = '0.03';
-our $REVISION = (split(/ /, ' $Revision: 1.10 $ '))[2];
+our $VERSION  = '0.04';
+our $REVISION = (split(/ /, ' $Revision: 1.12 $ '))[2];
 our $TYPES    = { # maybe should use regexps here?
 		 'yml'  => 'Pipeline::Config::YAML',
 		 'yaml' => 'Pipeline::Config::YAML',

@@ -25,11 +25,14 @@ my $build = Module::Build->new
    create_makefile_pl => 'passthrough',
    license            => 'perl',
    build_requires     => {
-			  'Test::More' => '0.01',
+			  'Test::More'    => '0.01',
 			  'Module::Build' => '0.19',
 		         },
+   requires           => {
+			  'Pipeline'      => '3.01',
+		         },
    recommends         => {
-			  'YAML'              => '0.35',
+			  'YAML'          => '0.35',
 		         },
   );
 
@@ -40,7 +43,7 @@ __END__
 
 =head1 VERSION
 
-$Id: Build.PL,v 1.1 2003/07/31 10:33:33 spurkis Exp $
+$Id: Build.PL,v 1.2 2003/08/08 11:21:55 spurkis Exp $
 
 =head1 AUTHOR
 

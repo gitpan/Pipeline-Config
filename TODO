@@ -8,7 +8,7 @@
 
 3. YAML parser
 
-    o	cleanup pipeline support
+    o	'cleanup' pipeline support
     o	set pipeline package names for more useful debug printing
     o	set/get variables support
     o	compile -> internal format support (for easy creation of new pipes)
