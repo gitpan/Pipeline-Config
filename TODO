@@ -6,7 +6,19 @@
 
 2. More tests.
 
-3. More POD.
+3. YAML parser
+
+    o	search-packages support
+    o	set pipeline package names for more useful debug printing
+    o	set/get variables support
+    o	factor out bits of this that can be used in other parsers if possible
+    	(ie: parsing generic data structures)
+
+x. Miscellaneous
+
+throw a LoadError on non-existent file.
+
+$config->load() should take text refs too.
 
 
 +--

@@ -14,9 +14,9 @@ package Pipeline::Config::UnknownTypeError;
 use strict;
 use warnings::register;
 
-use base qw( Error );
+use base qw( Pipeline::Config::Error );
 
-our $VERSION = (split(/ /, ' $Revision: 1.1 $ '))[2];
+our $VERSION = (split(/ /, ' $Revision: 1.2 $ '))[2];
 
 1;
 
@@ -39,7 +39,7 @@ Released under the same license as Perl itself.
 
 =head1 SEE ALSO
 
-L<Error>
+L<Pipeline::Config::Error>
 
 =cut
 

@@ -1,6 +1,6 @@
 =head1 NAME
 
-Pipeline::Config::LoadError - thrown when error loading/parsing config file.
+Pipeline::Config::Error - base Error class for this project.
 
 =head1 SYNOPSIS
 
@@ -8,7 +8,7 @@ Pipeline::Config::LoadError - thrown when error loading/parsing config file.
 
 =cut
 
-package Pipeline::Config::LoadError;
+package Pipeline::Config::Error;
 
 use strict;
 use warnings::register;
@@ -16,6 +16,13 @@ use warnings::register;
 use base qw( Error );
 
 our $VERSION = (split(/ /, ' $Revision: 1.1 $ '))[2];
+
+sub new {
+    my $class = shift;
+    local $Error::Depth = $Error::Depth + 1;
+    return $class->SUPER::new( -text => shift ) if (scalar(@_) == 1);
+    return $class->SUPER::new( @_ );
+}
 
 1;
 
@@ -25,7 +32,7 @@ __END__
 
 =head1 DESCRIPTION
 
-Simple error class - exists for the name only.
+Base class for Errors in this project.
 
 =head1 AUTHOR
 

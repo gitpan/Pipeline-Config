@@ -10,6 +10,7 @@ use warnings;
 
 use Test::More qw( no_plan => 1 );
 
+use Error qw( :try );
 use Pipeline;
 
 BEGIN { use_ok("Pipeline::Config") }
@@ -17,23 +18,52 @@ BEGIN { use_ok("Pipeline::Config") }
 my $parser = new Pipeline::Config;
 ok( $parser, 'new' ) || die "cannot continue\n";
 
-$parser->debug(1);
-my $pipe   = $parser->load( 't/conf/config.yaml' );
+is( $parser->debug(0), $parser, 'debug(set)' );
+is( $parser->debug, 0,          'debug(get)' );
 
-isa_ok( $pipe, 'Pipeline', 'load yaml config' );
+{
+    my $pipe;
+    try { $pipe = $parser->load( 't/conf/config.yaml' ); }
+    catch Error with { fail( 'load config.yaml: ' . shift); };
 
-if (isa_ok( my $subpipe = $pipe->segments->[-1], 'Pipeline', 'subpipe' )) {
-    isa_ok( my $seg = $subpipe->segments->[-1], 'Test::Segment', 'last seg' );
-    is( $seg->{foo}, 'bar', 'foo/bar set' );
+    if (isa_ok( $pipe, 'Pipeline', 'load yaml config' )) {
+	my $subpipe = $pipe->segments->[-1];
+	if (isa_ok( $subpipe, 'Pipeline', 'subpipe' )) {
+	    my $seg = $subpipe->segments->[-1];
+	    if (isa_ok( $seg, 'Test::Segment', 'last seg' )) {
+		is( $seg->{foo}, 'bar', 'foo/bar set' );
+	    }
+	}
+    }
+    #use Data::Dumper;
+    #print Dumper( $pipe );
 }
 
+{
+    my $e;
+    try { $parser->load( 't/conf/non-existent.yaml' ); }
+    catch Error with { $e = shift; };
+    isa_ok( $e, 'Error', 'load non-existent.yaml' );
+  TODO: {
+    local $TODO = 'implement this';
+    isa_ok( $e, 'Pipeline::Config::LoadError', 'load non-existent.yaml' );
+    }
+}
 
-use Data::Dumper;
-print Dumper( $pipe );
+{
+    my $e;
+    try {
+	$parser->load( 't/conf/bad-classname.yaml' );
+    }
+    catch Error with { $e = shift; };
+    isa_ok( $e, 'Pipeline::Config::LoadError', 'load config w/bad class name' );
+    like  ( $e, qr/Error loading class/,       'error loading class' );
+}
+
 
 package Test::Segment;
 use base qw( Pipeline::Segment );
 sub foo {
     my $self     = shift;
     $self->{foo} = shift;
- }
+}

@@ -24,20 +24,18 @@ use strict;
 use warnings::register;
 
 use Error;
+use Pipeline::Config::LoadError;
+use Pipeline::Config::UnknownTypeError;
 
 use base qw( Pipeline::Base );
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 our $TYPES   = { 'yaml' => 'Pipeline::Config::YAML' };
 
 sub types {
     my $self = shift;
-    if (@_) {
-	$TYPES = shift;
-	return $self;
-    } else {
-	return $TYPES;
-    }
+    if (@_) { $TYPES = shift; return $self; }
+    else { return $TYPES; }
 }
 
 sub load {
@@ -72,7 +70,7 @@ sub new_object {
     my $type  = shift;
     my $class = $self->get_types_class( $type )
       || throw Pipeline::Config::UnknownTypeError( "unknown type: $type" );
-    return $self->load_class( $class )->new( @_ );
+    return $self->load_class( $class )->new( @_ )->debug( $self->debug );
 }
 
 sub get_types_class {

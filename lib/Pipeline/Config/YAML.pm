@@ -5,10 +5,13 @@ use warnings::register;
 
 use Error;
 use Pipeline;
+use Pipeline::Config::LoadError;
 use Scalar::Util qw( blessed );
 use YAML qw( LoadFile Dump );
 
 use base qw( Pipeline::Base );
+
+our $VERSION = (split(/ /, ' $Revision: 1.5 $ '))[2];
 
 sub init {
     my $self = shift;
@@ -176,11 +179,6 @@ sub create_segment {
 
     $self->{indent} --;
     return $seg_class->new( @args );
-}
-
-sub print {
-    my $self = shift;
-    print ' ' x ($self->{indent}*2) , @_, "\n";
 }
 
 sub emit {

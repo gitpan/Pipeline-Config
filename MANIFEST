@@ -1,10 +1,14 @@
+BUGS
+CHANGES
 MANIFEST
 Makefile.PL
 README
 TODO
 lib/Pipeline/Config.pm
+lib/Pipeline/Config/Error.pm
+lib/Pipeline/Config/LoadError.pm
+lib/Pipeline/Config/UnknownTypeError.pm
 lib/Pipeline/Config/YAML.pm
-lib/Pipeline/LoadError.pm
-lib/Pipeline/UnkownTypeError.pm
+t/conf/bad-classname.yaml
 t/conf/config.yaml
 t/yaml.t
